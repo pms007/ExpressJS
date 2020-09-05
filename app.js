@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const MongoClient = require('mongodb').MongoClient;
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var basicRouter = require('./routes/basic');
@@ -38,6 +40,15 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+
+var url = 'mongodb://localhost:27017/test';
+
+MongoClient.connect(url, function(err, db) {
+	if (err) throw new Error(err);
+	console.log("MongoDB Connected!");
+	db.close();
 });
 
 module.exports = app;

@@ -42,5 +42,20 @@ router.use(function(req,res,next){
 });
 ```
 
+### MongoDB
+
+```javascript
+const MongoClient = require('mongodb').MongoClient;
+
+var url = 'mongodb://localhost:27017/test';
+
+MongoClient.connect(url, function(err, db) {
+	if (err) throw new Error(err);
+	console.log("MongoDB Connected!");
+	db.close();
+});
+```
+
+
 
 
