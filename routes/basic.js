@@ -20,4 +20,21 @@ router.delete('/delete', function(req,res,next){
 	res.send('Got Delete Request');
 });
 
+var funA = function (req, res, next) {
+  console.log('FunA')
+  next();
+}
+
+var funB = function (req, res, next) {
+  console.log('FunB')
+  next();
+}
+
+router.get('/handle/next', [funA, funB], function (req, res, next) {
+  console.log('The response will be sent by the next function ...');
+  next();
+}, function (req, res) {
+  res.send('Handled next method!');
+});
+
 module.exports = router;
