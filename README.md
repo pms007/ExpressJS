@@ -33,5 +33,14 @@ router.get('/handle/next', [funA, funB], function (req, res, next) {
 });
 ```
 
+### Middleware
+
+```javascript
+router.use(function(req,res,next){
+	console.log("Time:",Date.now());
+	next();
+});
+```
+
 
 
