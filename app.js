@@ -4,11 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const MongoClient = require('mongodb').MongoClient;
+//const MongoClient = require('mongodb').MongoClient;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var basicRouter = require('./routes/basic');
+var bookRouter = require('./routes/books');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/basic', basicRouter);
+app.use('/books', bookRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,12 +45,26 @@ app.use(function(err, req, res, next) {
 });
 
 
-var url = 'mongodb://localhost:27017/test';
+// var url = 'mongodb://localhost:27017/test';
 
-MongoClient.connect(url, function(err, db) {
-	if (err) throw new Error(err);
-	console.log("MongoDB Connected!");
-	db.close();
+// MongoClient.connect(url, function(err, db) {
+// 	if (err) throw new Error(err);
+// 	console.log("MongoDB Connected!");
+// 	db.close();
+// });
+
+const db = require("./app/models");
+
+db.mongoose.connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.log("Cannot connect to the database!", err);
+    process.exit();
 });
 
 module.exports = app;
